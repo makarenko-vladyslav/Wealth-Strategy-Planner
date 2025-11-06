@@ -27,14 +27,16 @@ export const InputsForm = () => {
   const prevStorePeriodsRef = useRef<string>(storePeriodsString)
 
   useEffect(() => {
-    setMounted(true)
-    // Синхронізуємо з store при монтуванні
-    setInitialUSD(storeInitialUSD)
-    setCapRate(storeCapRate)
-    setPeriods(storePeriods)
-    setInitialUSDDisplay(storeInitialUSD === 0 ? '' : String(storeInitialUSD))
-    setCapRateDisplay(storeCapRate === 0 ? '' : String(storeCapRate))
-    prevStorePeriodsRef.current = storePeriodsString
+    if (typeof window !== 'undefined') {
+      setMounted(true)
+      // Синхронізуємо з store при монтуванні
+      setInitialUSD(storeInitialUSD)
+      setCapRate(storeCapRate)
+      setPeriods(storePeriods)
+      setInitialUSDDisplay(storeInitialUSD === 0 ? '' : String(storeInitialUSD))
+      setCapRateDisplay(storeCapRate === 0 ? '' : String(storeCapRate))
+      prevStorePeriodsRef.current = storePeriodsString
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

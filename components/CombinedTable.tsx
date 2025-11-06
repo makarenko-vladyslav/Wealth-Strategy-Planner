@@ -54,14 +54,16 @@ export const CombinedTable = ({ rows }: { rows: OptionRow[] }) => {
 
   useEffect(() => {
     setMounted(true)
-    const saved = window.localStorage.getItem('ws.incomePeriod') as 'month' | 'year' | null
-    if (saved) {
-      setIncomePeriod(saved)
+    if (typeof window !== 'undefined') {
+      const saved = window.localStorage.getItem('ws.incomePeriod') as 'month' | 'year' | null
+      if (saved) {
+        setIncomePeriod(saved)
+      }
     }
   }, [])
 
   useEffect(() => {
-    if (mounted) {
+    if (mounted && typeof window !== 'undefined') {
       window.localStorage.setItem('ws.incomePeriod', incomePeriod)
     }
   }, [incomePeriod, mounted])
