@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Wealth Strategy Planner (USD only)
 
-## Getting Started
+Веб-додаток для планування стратегії капіталу та розрахунку прогнозного капіталу та консервативного річного доходу для різних бізнес/інвестиційних опцій.
 
-First, run the development server:
+## Технології
+
+- **Next.js 15** (App Router)
+- **React** + **TypeScript**
+- **Tailwind CSS v4.1**
+- **Headless UI**
+- **Zustand** (state management)
+- **TanStack Table v8** (таблиці з фільтрацією та сортуванням)
+- **React Hook Form** + **Zod** (форми та валідація)
+- **Vitest** + **React Testing Library** (тестування)
+- **papaparse** + **FileSaver** (експорт CSV)
+
+## Функціонал
+
+- 📊 Таблиця з 112 опціями інвестування з фільтрацією, сортуванням та пошуком
+- 💰 Розрахунок прогнозного капіталу та доходу на основі вхідних даних
+- 📈 Підтримка множинних періодів інвестування з різними щомісячними внесками
+- 🎨 Темна/світла тема з автоматичним збереженням
+- 💾 Збереження вхідних даних в localStorage
+- 📥 Експорт даних таблиці в CSV формат
+- 📱 Адаптивний дизайн для мобільних пристроїв
+
+## Встановлення
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cd web
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Запуск
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+cd web
+pnpm dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Відкрийте [http://localhost:3000](http://localhost:3000) у браузері.
 
-## Learn More
+## Тестування
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+cd web
+pnpm test
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Структура проєкту
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+web/
+├── app/              # Next.js App Router сторінки
+├── components/       # React компоненти
+├── data/            # Дані опцій інвестування
+├── lib/             # Утиліти (математика, CSV, таблиці)
+├── store/           # Zustand stores
+├── tests/           # Тести
+└── types.ts         # TypeScript типи
+```
 
-## Deploy on Vercel
+## Ліцензія
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT
