@@ -8,6 +8,6 @@ const MAP: Record<OptionRow['liquidity'], { t: string; b: string }> = {
 
 export const LiquidityBadge = ({ value }: { value: OptionRow['liquidity'] }) => {
   const c = MAP[value]
-  return <span className={`inline-flex items-center rounded-md px-2 py-0.5 text-[11px] font-medium ${c.b} ${c.t}`}>{value}</span>
+  return <span className={`inline-flex items-center rounded-md px-2 py-0.5 text-[11px] font-medium whitespace-nowrap ${c.b} ${c.t}`}>{value}</span>
 }
 

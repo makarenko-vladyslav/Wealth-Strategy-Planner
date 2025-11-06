@@ -24,8 +24,15 @@ export const TableToolbar = <T,>({
           <select
             key={q.columnId}
             className="rounded-md border border-neutral-200 bg-white px-2 py-2 text-sm text-slate-800 shadow-sm ring-1 ring-inset ring-transparent focus:outline-none focus:ring-neutral-300 dark:border-neutral-700 dark:bg-neutral-900 dark:text-slate-200 dark:focus:ring-neutral-700"
-            value={(table.getColumn(q.columnId)?.getFilterValue() as string) ?? ''}
-            onChange={(e) => table.getColumn(q.columnId)?.setFilterValue(e.target.value)}
+            value={(table.getColumn(q.columnId)?.getFilterValue() as string) ?? (q.options.find((o) => o.value === 'all') ? 'all' : '')}
+            onChange={(e) => {
+              const value = e.target.value
+              if (value === '') {
+                table.getColumn(q.columnId)?.setFilterValue(undefined)
+              } else {
+                table.getColumn(q.columnId)?.setFilterValue(value === 'all' ? undefined : value)
+              }
+            }}
           >
             <option value="">{q.placeholder}</option>
             {q.options.map((o) => (

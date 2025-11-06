@@ -20,7 +20,7 @@ export const ProjectionTable = ({ rows }: { rows: OptionRow[] }) => {
         ForecastCapitalUSD: forecastCapitalUSD(r.roiAnnual, inputs),
         EstAnnualIncomeUSD: estAnnualIncomeUSD(r.roiAnnual, inputs)
       })),
-    [rows, inputs.initialUSD, inputs.monthlyUSD, inputs.years, inputs.capRate]
+    [rows, inputs]
   )
 
   const columns: ColumnDef<Row>[] = useMemo(
