@@ -7,8 +7,7 @@ type InputsState = Inputs & { setAll: (v: Inputs) => void; reset: () => void }
 const DEFAULTS: Inputs = {
   initialUSD: 0,
   periods: [
-    { years: 5, monthly: 3000 },
-    { years: 15, monthly: 1000 }
+    { years: 10, monthly: 2000 }
   ],
   capRate: 0.1,
   inflationRate: 0.05,

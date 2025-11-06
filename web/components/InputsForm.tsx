@@ -7,30 +7,33 @@ export const InputsForm = () => {
   const setAll = useInputs((s) => s.setAll)
   const resetStore = useInputs((s) => s.reset)
   const storeInputs = useInputs()
-  
+  const storeInitialUSD = useInputs((s) => s.initialUSD)
+  const storeCapRate = useInputs((s) => s.capRate)
+  const storePeriods = useInputs((s) => s.periods)
+
   const [mounted, setMounted] = useState(false)
-  const [initialUSD, setInitialUSD] = useState(() => storeInputs.initialUSD)
-  const [capRate, setCapRate] = useState(() => storeInputs.capRate)
-  const [periods, setPeriods] = useState<Period[]>(() => storeInputs.periods)
+  const [initialUSD, setInitialUSD] = useState(() => storeInitialUSD)
+  const [capRate, setCapRate] = useState(() => storeCapRate)
+  const [periods, setPeriods] = useState<Period[]>(() => storePeriods)
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
   const isUserChangeRef = useRef(false)
   
   // Локальні стани для відображення значень в інпутах (можуть бути порожніми під час введення)
-  const [initialUSDDisplay, setInitialUSDDisplay] = useState(() => storeInputs.initialUSD === 0 ? '' : String(storeInputs.initialUSD))
-  const [capRateDisplay, setCapRateDisplay] = useState(() => storeInputs.capRate === 0 ? '' : String(storeInputs.capRate))
+  const [initialUSDDisplay, setInitialUSDDisplay] = useState(() => storeInitialUSD === 0 ? '' : String(storeInitialUSD))
+  const [capRateDisplay, setCapRateDisplay] = useState(() => storeCapRate === 0 ? '' : String(storeCapRate))
 
   // Порівнюємо periods за значеннями, а не за посиланням
-  const storePeriodsString = useMemo(() => JSON.stringify(storeInputs.periods), [storeInputs.periods])
+  const storePeriodsString = useMemo(() => JSON.stringify(storePeriods), [storePeriods])
   const prevStorePeriodsRef = useRef<string>(storePeriodsString)
 
   useEffect(() => {
     setMounted(true)
     // Синхронізуємо з store при монтуванні
-    setInitialUSD(storeInputs.initialUSD)
-    setCapRate(storeInputs.capRate)
-    setPeriods(storeInputs.periods)
-    setInitialUSDDisplay(storeInputs.initialUSD === 0 ? '' : String(storeInputs.initialUSD))
-    setCapRateDisplay(storeInputs.capRate === 0 ? '' : String(storeInputs.capRate))
+    setInitialUSD(storeInitialUSD)
+    setCapRate(storeCapRate)
+    setPeriods(storePeriods)
+    setInitialUSDDisplay(storeInitialUSD === 0 ? '' : String(storeInitialUSD))
+    setCapRateDisplay(storeCapRate === 0 ? '' : String(storeCapRate))
     prevStorePeriodsRef.current = storePeriodsString
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -38,19 +41,19 @@ export const InputsForm = () => {
   // Синхронізуємо з store тільки після монтування і якщо зміна не від користувача
   useEffect(() => {
     if (!mounted) return
-    if (!isUserChangeRef.current && storeInputs.initialUSD !== initialUSD) {
-      setInitialUSD(storeInputs.initialUSD)
-      setInitialUSDDisplay(storeInputs.initialUSD === 0 ? '' : String(storeInputs.initialUSD))
+    if (!isUserChangeRef.current && storeInitialUSD !== initialUSD) {
+      setInitialUSD(storeInitialUSD)
+      setInitialUSDDisplay(storeInitialUSD === 0 ? '' : String(storeInitialUSD))
     }
-  }, [mounted, storeInputs.initialUSD, initialUSD])
+  }, [mounted, storeInitialUSD, initialUSD])
 
   useEffect(() => {
     if (!mounted) return
-    if (!isUserChangeRef.current && storeInputs.capRate !== capRate) {
-      setCapRate(storeInputs.capRate)
-      setCapRateDisplay(storeInputs.capRate === 0 ? '' : String(storeInputs.capRate))
+    if (!isUserChangeRef.current && storeCapRate !== capRate) {
+      setCapRate(storeCapRate)
+      setCapRateDisplay(storeCapRate === 0 ? '' : String(storeCapRate))
     }
-  }, [mounted, storeInputs.capRate, capRate])
+  }, [mounted, storeCapRate, capRate])
 
   useEffect(() => {
     if (!mounted) return
@@ -58,10 +61,10 @@ export const InputsForm = () => {
       const localString = JSON.stringify(periods)
       if (storePeriodsString !== localString) {
         prevStorePeriodsRef.current = storePeriodsString
-        setPeriods(storeInputs.periods)
+        setPeriods(storePeriods)
       }
     }
-  }, [mounted, storePeriodsString, storeInputs.periods, periods])
+  }, [mounted, storePeriodsString, storePeriods, periods])
 
   const periodsStringForEffect = useMemo(() => JSON.stringify(periods), [periods])
   
@@ -108,21 +111,15 @@ export const InputsForm = () => {
   }
 
   const reset = () => {
-    const defaults = {
-      initialUSD: 0,
-      periods: [
-        { years: 5, monthly: 3000 },
-        { years: 15, monthly: 1000 }
-      ],
-      capRate: 0.1
-    }
-    isUserChangeRef.current = false // Це зміна від reset, не від користувача
-    setInitialUSD(defaults.initialUSD)
-    setCapRate(defaults.capRate)
-    setPeriods(defaults.periods)
-    setInitialUSDDisplay('')
-    setCapRateDisplay(String(defaults.capRate))
+    isUserChangeRef.current = false
     resetStore()
+    setTimeout(() => {
+      setInitialUSD(0)
+      setCapRate(0.1)
+      setPeriods([{ years: 10, monthly: 2000 }])
+      setInitialUSDDisplay('')
+      setCapRateDisplay('0.1')
+    }, 100)
   }
 
   return (
@@ -291,7 +288,7 @@ export const InputsForm = () => {
           onClick={reset}
           className="bg-neutral-100 hover:bg-neutral-200/70 dark:bg-neutral-800 dark:hover:bg-neutral-700 shadow-sm px-3 py-2 rounded-md ring-1 ring-neutral-200 dark:ring-neutral-700 ring-inset w-full font-medium text-slate-700 dark:text-slate-200 text-xs"
         >
-          Скинути до дефолтів
+          Скинути
         </button>
       </div>
     </form>
