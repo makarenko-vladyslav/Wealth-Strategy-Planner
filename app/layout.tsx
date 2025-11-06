@@ -16,9 +16,6 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Планувальник стратегії багатства",
   description: "Розрахуйте прогноз капіталу та консервативний річний дохід для різних варіантів інвестицій та бізнесу",
-  icons: {
-    icon: "/favicon.svg",
-  },
 };
 
 export default function RootLayout({
